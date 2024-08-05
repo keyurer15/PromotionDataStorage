@@ -8,12 +8,15 @@ import (
 	"strings"
 )
 
+const promotion_data_file = "./promotions.csv" //can be passed as an argument/set as environment variable as well!
+
 func main() {
 	
 	slog.Info("Data service started")
 	
 	//Read promotion data
-	readSourceData()	
+	
+	readSourceData(promotion_data_file)	
 	
 	//Start listening for search quest
 	http.ListenAndServe(":1323", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

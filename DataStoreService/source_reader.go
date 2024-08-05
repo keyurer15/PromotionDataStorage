@@ -10,12 +10,14 @@ import(
  "time"
 )
 
+//struct to hold data read from the promotion csv file
 type promotionData struct {
 	Id              string  `json:"id"`
 	Price           float64 `json:"price"`
 	Expiration_date string  `json:"expiration_date"`
 }
 
+//Map to quickly access promotion data
 var promotionDataStore map[string]promotionData = make(map[string]promotionData) 
 
 //Store time stamp of last refresh of data store
@@ -24,10 +26,10 @@ var lastRefreshedTime = time.Now()
 const refreshDuration = 1200
 
 //Method to read and process data from promotion data file
-func readSourceData() {
+func readSourceData(dataFile string) {
    // Open the CSV file
    slog.Info("Enter ReadSourceData\n")
-   file, err := os.Open("./promotions.csv")
+   file, err := os.Open(dataFile)
    if err != nil {
        panic(err)
    }
@@ -68,6 +70,8 @@ func readSourceData() {
 	slog.Info("Exit ReadSourceData\n")
 }
 
+//Method to retrieve promotdata based upon giveb promotion ID
+//The method return false if the promotdata record is not found
 func getPromotionData(promotionID *string, responseData *[]byte) bool{
 
 	promotdata,doExist := promotionDataStore[*promotionID]
@@ -86,6 +90,7 @@ func getPromotionData(promotionID *string, responseData *[]byte) bool{
 	return true
 }
 
+//Method to read the csv file on demand and update the data store
 func refreshDataStore() {
  
  timenow := time.Now()
@@ -94,7 +99,7 @@ func refreshDataStore() {
  
  
  if timeDiff > refreshDuration { 
-		readSourceData()
+		readSourceData(promotion_data_file)
 		slog.Info("DataStore refreshed at " , lastRefreshedTime.Format("2006-01-02 15:04:05")) //YYYY-MM-DD HH:mm:ss format
    }
 }

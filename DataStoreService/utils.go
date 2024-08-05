@@ -5,6 +5,7 @@ import(
  "log/slog"
 )
 
+//Method to form JSON response from promotionData struct
 func formPromotionJsonResponse(result *promotionData) ([]byte, error){
     jsonData, err := json.Marshal(result)
     if err != nil {
