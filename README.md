@@ -17,7 +17,21 @@ The solution is implemented as two services PromotionService and DataStoreServic
 12) Run "go build"
 13) If the build shows no error, run "go run ." to start DataStoreService
 
+**To test the application**
+1) Find a valid promotion ID (like e2649ca5-7e05-4d53-a8ff-919917a4922e) from promotion.csv ( it can be found in the DataStoreService folder)
+2) start CLI
+3) Run "curl http://localhost:1321/promotions/e2649ca5-7e05-4d53-a8ff-919917a4922e" to send request
+   
+   Note the protocol is http (not https)
+   
+4) Observe the response and match it with the corresponding data in the promotions.csv
+   
+   
+
+
+   
 **Questions**
+
 Q1) The .csv file could be very big (billions of entries) - how would your application perform? How would you optimize it?
 
 A1) When the size of the .csv file is huge (billions of entries), the data file open and read operations become slower, which would introduce latency in the promotion ID search request.
